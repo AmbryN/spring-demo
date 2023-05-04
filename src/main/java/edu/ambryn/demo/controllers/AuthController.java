@@ -40,11 +40,10 @@ public class AuthController {
     public ResponseEntity authenticate(@RequestBody User user) {
         MyUserDetails userDetails;
         try {
-            userDetails = (MyUserDetails) authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            user.getEmail(),
-                            user.getPassword()
-                    )).getPrincipal();
+            userDetails = (MyUserDetails) authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
+                                                                       user.getEmail(),
+                                                                       user.getPassword()))
+                                                               .getPrincipal();
         } catch (BadCredentialsException e) {
             return new ResponseEntity<>(HttpStatus.FORBIDDEN);
         }
@@ -54,21 +53,19 @@ public class AuthController {
     @PostMapping("/register")
     @JsonView(UserView.class)
     public ResponseEntity<User> register(@RequestBody User user) {
-        if (user.getId() != null)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (user.getId() != null) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
-        if (user.getPassword().length() < 3)
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (user.getPassword()
+                .length() < 3) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         String regex = "^(.+)@(.+)$";
         Pattern pattern = Pattern.compile(regex);
 
-        if(!pattern.matcher(user.getEmail()).matches())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (!pattern.matcher(user.getEmail())
+                    .matches()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         Optional<User> oUser = userRepository.findByEmail(user.getEmail());
-        if (oUser.isPresent())
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        if (oUser.isPresent()) return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
