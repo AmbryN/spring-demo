@@ -1,0 +1,69 @@
+version: '3'
+services:
+  nginx:
+    image: nginx-demo
+    build: 
+      context: ./nginx
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    restart: always
+    networks:
+      backend2:
+        ipv4_address: 192.168.1.5
+
+  mysql:
+    image: mysql:5.7
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./spring_demo.sql:/spring_demo.sql
+    restart: always
+    networks:
+      backend2:
+        ipv4_address: 192.168.1.2
+    environment:
+      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_DATABASE: demo
+    
+  tomcat:
+    depends_on:
+      - mysql 
+    image: spring-demo #tomcat:8.5
+    build:
+      context: .
+      dockerfile: Dockerfile
+      #volumes: 
+      #- ./target/demo-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/demo-0.0.1-SNAPSHOT.war
+      #ports:
+      #- "8080:8080"
+    restart: always
+    networks:
+      backend2:
+        ipv4_address: 192.168.1.4
+    command: sh -c "/usr/local/tomcat/bin/catalina.sh run"
+
+  phpmyadmin:
+    depends_on:
+      - mysql
+    image: phpmyadmin/phpmyadmin
+      #ports:
+      #- "8888:80"
+        #expose:
+      #- "80"
+    restart: always
+    networks:
+      backend2:
+        ipv4_address: 192.168.1.3
+    environment:
+      PMA_HOST: 192.168.1.2
+      PMA_ABSOLUTE_URI: http://51.178.28.219:8881/phpmyadmin
+
+volumes:
+  mysql_data: {}
+
+networks:
+  backend2:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.0/8
