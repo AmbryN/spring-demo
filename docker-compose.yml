@@ -2,7 +2,7 @@ version: '3'
 services:
   nginx:
     image: nginx-demo
-    build: 
+    build:
       context: ./nginx
       dockerfile: Dockerfile
     ports:
@@ -22,20 +22,16 @@ services:
       backend2:
         ipv4_address: 192.168.1.2
     environment:
-      MYSQL_ROOT_PASSWORD: root 
+      MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: demo
-    
+
   tomcat:
     depends_on:
-      - mysql 
-    image: spring-demo #tomcat:8.5
+      - mysql
+    image: spring-demo
     build:
       context: .
       dockerfile: Dockerfile
-      #volumes: 
-      #- ./target/demo-0.0.1-SNAPSHOT.war:/usr/local/tomcat/webapps/demo-0.0.1-SNAPSHOT.war
-      #ports:
-      #- "8080:8080"
     restart: always
     networks:
       backend2:
@@ -46,10 +42,6 @@ services:
     depends_on:
       - mysql
     image: phpmyadmin/phpmyadmin
-      #ports:
-      #- "8888:80"
-        #expose:
-      #- "80"
     restart: always
     networks:
       backend2:
@@ -59,7 +51,7 @@ services:
       PMA_ABSOLUTE_URI: http://51.178.28.219:8881/phpmyadmin
 
 volumes:
-  mysql_data: {}
+  mysql_data: { }
 
 networks:
   backend2:
