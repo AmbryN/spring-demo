@@ -1,7 +1,7 @@
 version: '3'
 services:
   nginx:
-    image: nginx-demo
+    image: nginx-server
     build:
       context: ./nginx
       dockerfile: Dockerfile
@@ -10,7 +10,7 @@ services:
       - "443:443"
     restart: always
     networks:
-      backend2:
+      backend:
         ipv4_address: 192.168.1.5
 
   frontend:
@@ -20,7 +20,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     networks:
-      backend2:
+      backend:
         ipv4_address: 192.168.1.6
 
   mysql:
@@ -30,13 +30,13 @@ services:
       - ./spring_demo.sql:/spring_demo.sql
     restart: always
     networks:
-      backend2:
+      backend:
         ipv4_address: 192.168.1.2
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: demo
 
-  tomcat:
+  backend:
     depends_on:
       - mysql
     image: spring-demo
@@ -45,7 +45,7 @@ services:
       dockerfile: Dockerfile
     restart: always
     networks:
-      backend2:
+      backend:
         ipv4_address: 192.168.1.4
     command: sh -c "/usr/local/tomcat/bin/catalina.sh run"
 
@@ -55,7 +55,7 @@ services:
     image: phpmyadmin/phpmyadmin
     restart: always
     networks:
-      backend2:
+      backend:
         ipv4_address: 192.168.1.3
     environment:
       PMA_HOST: 192.168.1.2
@@ -65,7 +65,7 @@ volumes:
   mysql_data: { }
 
 networks:
-  backend2:
+  backend:
     driver: bridge
     ipam:
       config:
