@@ -14,10 +14,9 @@ services:
         ipv4_address: 192.168.1.5
 
   frontend:
-    image: nginx-frontend
-    build:
-      context: ./frontend
-      dockerfile: Dockerfile
+    image: nginx
+    volumes:
+      - /home/ambryn/code/js/alertmns-webapp/dist/angular-socket:/var/www/alertmns-webapp
     restart: always
     networks:
       backend2:
