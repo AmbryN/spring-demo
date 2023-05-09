@@ -73,6 +73,7 @@
             <id>prod</id>
             <properties>
                 <DB_ADDRESS>192.168.1.2:3306</DB_ADDRESS>
+                <DB_NAME>demo</DB_NAME>
             </properties>
         </profile>
     </profiles>
