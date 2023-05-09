@@ -14,9 +14,10 @@ services:
         ipv4_address: 192.168.1.5
 
   frontend:
-    image: nginx
-    volumes:
-      - ./nginx/webapp:/var/www/alertmns-webapp
+    image: nginx-frontend
+    build:
+      context: ./nginx/frontend
+      dockerfile: Dockerfile
     restart: always
     networks:
       backend2:
