@@ -69,14 +69,14 @@
         <profile>
             <id>dev</id>
             <properties>
-                <DB_ADDRESS>192.168.1.2:3306</DB_ADDRESS>
+                <DB_ADDRESS>localhost:3306</DB_ADDRESS>
                 <DB_NAME>demo</DB_NAME>
                 <DB_USERNAME>root</DB_USERNAME>
                 <DB_PASSWORD>root</DB_PASSWORD>
-                <DB_AUTOCREATE>none</DB_AUTOCREATE>
+                <DB_AUTOCREATE>create</DB_AUTOCREATE>
                 <DB_INIT_SCRIPT_NAME>mariadb</DB_INIT_SCRIPT_NAME>
-                <DB_DATASOURCE_INIT>false</DB_DATASOURCE_INIT>
-                <DB_INIT_MODE>never</DB_INIT_MODE>
+                <DB_DATASOURCE_INIT>true</DB_DATASOURCE_INIT>
+                <DB_INIT_MODE>always</DB_INIT_MODE>
                 <FILE_UPLOAD_PATH>./uploads</FILE_UPLOAD_PATH>
             </properties>
         </profile>
