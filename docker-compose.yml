@@ -16,7 +16,7 @@ services:
   frontend:
     image: nginx
     volumes:
-      - /home/ambryn/code/js/alertmns-webapp/dist/angular-socket/:/var/www/alertmns-webapp
+      - /home/ambryn/code/js/alertmns-webapp/dist/angular-socket/*:/var/www/alertmns-webapp
     restart: always
     networks:
       backend2:
