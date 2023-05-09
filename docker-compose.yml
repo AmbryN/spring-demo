@@ -16,7 +16,7 @@ services:
   frontend:
     image: nginx
     volumes:
-      - ./nginx/webapp:/var/www/alertmns-webapp
+      - ./nginx/webapp:/usr/share/nginx/alertmns-webapp
     restart: always
     networks:
       backend2:
