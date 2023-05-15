@@ -10,6 +10,6 @@ public class HelloController {
 
     @GetMapping("/")
     public ResponseEntity<String> hello() {
-        return ResponseEntity.accepted().contentType(MediaType.APPLICATION_JSON).body("{\"message\": \"Hello, world\"}");
+        return ResponseEntity.ok("Le serveur fonctionne bien");
     }
 }
